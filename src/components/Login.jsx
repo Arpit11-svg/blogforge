@@ -49,7 +49,7 @@ function Login() {
         </p>
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
         <form onSubmit={handleSubmit(login)} className="mt-8">
-            {/* handleSubmit is event of react hook form in which we have to pass a manual logic method */}
+          {/* handleSubmit is event of react hook form in which we have to pass a manual logic method */}
           <div className="space-y-5">
             {/* Use of Input component i.e, Input.jsx */}
             <Input
