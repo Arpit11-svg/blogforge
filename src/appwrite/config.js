@@ -1,4 +1,4 @@
-import conf from '../conf.js';
+import conf from '../conf/conf.js';
 import { Client, ID, TablesDB, Storage, Query } from "appwrite";
 
 export class Service {
@@ -42,7 +42,7 @@ export class Service {
             return await this.tableDB.updateRow({
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteTableId,
-                slug,
+                rowId: slug,
                 data: {
                     title,
                     content,
@@ -61,7 +61,7 @@ export class Service {
             await this.tableDB.deleteRow({
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteTableId,
-                slug
+                rowId: slug,
             });
 
             return true;
@@ -76,7 +76,7 @@ export class Service {
             return await this.tableDB.getRow({
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteTableId,
-                slug
+                rowId: slug,
             });
         } catch (error) {
             console.error("getPost error:", error);
@@ -105,16 +105,16 @@ export class Service {
     async uploadFile(file) {
         try {
             return await this.bucket.createFile(
-            conf.appwriteBucketId,
-            ID.unique(),
-            file
-        );
+                conf.appwriteBucketId,
+                ID.unique(),
+                file
+            );
         } catch (error) {
             return false;
         }
     }
 
-    async deleteFile(fileId){
+    async deleteFile(fileId) {
         try {
             await this.bucket.deleteFile(
                 conf.appwriteBucketId,
@@ -126,14 +126,14 @@ export class Service {
         }
     }
 
-    getFilePreview(fileId){
-        return this.bucket.getFilePreview(
+    getFileView(fileId) {
+        return this.bucket.getFileView(
             conf.appwriteBucketId,
             fileId
-        )
+        ).toString()
     }
 
-    downloadFile(fileId){
+    downloadFile(fileId) {
         return this.bucket.getFileDownload(
             conf.appwriteBucketId,
             fileId
