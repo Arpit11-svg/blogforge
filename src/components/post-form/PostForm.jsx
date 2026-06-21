@@ -17,7 +17,7 @@ export default function PostForm({ post }) {
     });
 
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.userData);
+  const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
     if (post) {
@@ -43,6 +43,7 @@ export default function PostForm({ post }) {
       if (file) {
         const fileId = file.$id;
         data.featuredImage = fileId;
+        console.log(userData);
         const dbPost = await appwriteService.createPost({
           ...data,
           userId: userData.$id,
@@ -89,6 +90,7 @@ export default function PostForm({ post }) {
           label="Slug :"
           placeholder="Slug"
           className="mb-4"
+          disabled
           {...register("slug", { required: true })}
           onInput={(e) => {
             setValue("slug", slugTransform(e.currentTarget.value), {
@@ -130,6 +132,7 @@ export default function PostForm({ post }) {
           type="submit"
           bgColor={post ? "bg-green-500" : undefined}
           className="w-full"
+          disabled={!userData}
         >
           {post ? "Update" : "Submit"}
         </Button>
