@@ -12,6 +12,7 @@ import PostCard from './PostCard.jsx'
 import AuthLayout from './AuthLayout.jsx'
 import Button from './Button.jsx'
 import Input from './Input.jsx'
+import SupportForm from "./SupportForm.jsx"
 
 export {
     Header,
@@ -28,5 +29,6 @@ export {
     PostForm,
     PostCard,
     AuthLayout,
+    SupportForm,
 
 }

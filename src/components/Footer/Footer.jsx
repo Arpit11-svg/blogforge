@@ -85,7 +85,7 @@ function Footer() {
                 <li className="mb-4">
                   <Link
                     className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
+                    to="/support"
                   >
                     Contact Us
                   </Link>
@@ -93,7 +93,7 @@ function Footer() {
                 <li>
                   <Link
                     className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
+                    to="/support"
                   >
                     Customer Support
                   </Link>

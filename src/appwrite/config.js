@@ -18,7 +18,7 @@ export class Service {
         try {
             return await this.tableDB.createRow({
                 databaseId: conf.appwriteDatabaseId,
-                tableId: conf.appwriteTableId,
+                tableId: conf.appwriteArticlesTableId,
                 rowId: ID.unique(),
                 data: {
                     title,
@@ -41,7 +41,7 @@ export class Service {
         try {
             return await this.tableDB.updateRow({
                 databaseId: conf.appwriteDatabaseId,
-                tableId: conf.appwriteTableId,
+                tableId: conf.appwriteArticlesTableId,
                 rowId: slug,
                 data: {
                     title,
@@ -60,7 +60,7 @@ export class Service {
         try {
             await this.tableDB.deleteRow({
                 databaseId: conf.appwriteDatabaseId,
-                tableId: conf.appwriteTableId,
+                tableId: conf.appwriteArticlesTableId,
                 rowId: slug,
             });
 
@@ -75,7 +75,7 @@ export class Service {
         try {
             return await this.tableDB.getRow({
                 databaseId: conf.appwriteDatabaseId,
-                tableId: conf.appwriteTableId,
+                tableId: conf.appwriteArticlesTableId,
                 rowId: slug,
             });
         } catch (error) {
@@ -88,7 +88,7 @@ export class Service {
         try {
             return await this.tableDB.listRows({
                 databaseId: conf.appwriteDatabaseId,
-                tableId: conf.appwriteTableId,
+                tableId: conf.appwriteArticlesTableId,
                 queries: [
                     Query.equal("status", ["active"])
                     // Returns row if column(status) is equal to any value in the provided array
@@ -138,6 +138,28 @@ export class Service {
             conf.appwriteBucketId,
             fileId
         )
+    }
+
+    // support storage
+    async createSupportTicket({ name, email, subject, message, userId }) {
+        try {
+            return await this.tableDB.createRow(
+                conf.appwriteDatabaseId,
+                conf.appwriteSupportTableId,
+                ID.unique(),
+                {
+                    name,
+                    email,
+                    subject,
+                    message,
+                    status: "open",
+                    userId
+                }
+            );
+        } catch (error) {
+            console.log("Appwrite Support Error", error);
+            throw error;
+        }
     }
 }
 
