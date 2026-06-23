@@ -85,13 +85,14 @@ export class Service {
         }
     }
 
-    async getPosts() {
+    async getPosts(customQueries = []) {
         try {
             return await this.tableDB.listRows({
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteArticlesTableId,
                 queries: [
-                    Query.equal("status", ["active"])
+                    Query.equal("status", ["active"]),
+                    ...customQueries
                     // Returns row if column(status) is equal to any value in the provided array
                 ]
             });

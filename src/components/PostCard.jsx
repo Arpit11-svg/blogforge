@@ -1,20 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import appwriteService from "../appwrite/config";
+import { categoryMap } from "./constants/allcategories";
 
 function PostCard({ $id, title, featuredImage, category }) {
-  const categoryMap = {
-    technology: "Technology",
-    programming: "Programming",
-    "artificial-intelligence": "Artificial Intelligence",
-    "business-finance": "Business & Finance",
-    education: "Education",
-    "health-fitness": "Health & Fitness",
-    lifestyle: "Lifestyle",
-    science: "Science",
-    entertainment: "Entertainment",
-    sports: "Sports",
-  };
+  
   return (
     <Link to={`/post/${$id}`}>
       <div className="w-full bg-gray-100 rounded-xl p-3 sm:p-4 flex flex-col h-full">

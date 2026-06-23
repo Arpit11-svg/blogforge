@@ -4,17 +4,25 @@ import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { categories } from "../constants/allcategories";
 
 export default function PostForm({ post }) {
-  const { register, handleSubmit, watch, setValue, control, getValues,formState: { errors }, } =
-    useForm({
-      defaultValues: {
-        title: post?.title || "",
-        slug: post?.$id || "",
-        content: post?.content || "",
-        status: post?.status || "active",
-      },
-    });
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    control,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: post?.title || "",
+      slug: post?.$id || "",
+      content: post?.content || "",
+      status: post?.status || "active",
+    },
+  });
 
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
@@ -164,18 +172,11 @@ export default function PostForm({ post }) {
             >
               <option value="">Select Category</option>
 
-              <option value="technology">Technology</option>
-              <option value="programming">Programming</option>
-              <option value="artificial-intelligence">
-                Artificial Intelligence
-              </option>
-              <option value="business-finance">Business & Finance</option>
-              <option value="education">Education</option>
-              <option value="health-fitness">Health & Fitness</option>
-              <option value="lifestyle">Lifestyle</option>
-              <option value="science">Science</option>
-              <option value="entertainment">Entertainment</option>
-              <option value="sports">Sports</option>
+              {categories.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
             </select>
           </div>
 

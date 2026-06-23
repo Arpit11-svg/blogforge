@@ -14,6 +14,8 @@ import EditPost from "./pages/EditPost.jsx";
 import Post from "./pages/Post.jsx";
 import Home from "./pages/Home.jsx";
 import Support from "./pages/Support.jsx";
+import AllCategory from "./pages/AllCategory.jsx";
+import CategoryPost from "./pages/CategoryPost";
 
 const router = createBrowserRouter([
   {
@@ -71,12 +73,24 @@ const router = createBrowserRouter([
       },
       {
         path: "/support",
-        element: <Support/>
+        element: <Support />,
       },
-      // {
-      //   path: "/categories",
-      //   element: <Category />
-      // }
+      {
+        path: "/category",
+        element: (
+          <AuthLayout authentication={true}>
+            <AllCategory />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/category/:category",
+        element: (
+          <AuthLayout authentication={true}>
+            <CategoryPost />
+          </AuthLayout>
+        ),
+      },
     ],
   },
 ]);
