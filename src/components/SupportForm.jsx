@@ -1,20 +1,46 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { Button, Input, Logo } from "./index";
 import { useSelector } from "react-redux";
 import appwriteService from "../appwrite/config";
 import { useForm } from "react-hook-form";
 
 function SupportForm() {
+  const [searchParamas] = useSearchParams();
+  const type = searchParamas.get("type");
+  const supportConfig = {
+    contact: {
+      heading: "Contact Us",
+      description: "Need help? Send us your query.",
+      subject: "",
+    },
+    feedback: {
+      heading: "Submit Feedback",
+      description: "Help us to improve BlogForge.",
+      subject: "Feedback",
+    },
+    issue: {
+      heading: "Report an Issue",
+      description: "Tell us what went wrong.",
+      subject: "Bug Report",
+    },
+    
+  };
+  const current = supportConfig[type] || supportConfig["contact"];
+  useEffect(()=>{
+    setValue("subject", current.subject)
+  },[current]);
+
   const {
     handleSubmit,
     register,
     reset,
+    setValue,
     formState: { errors },
   } = useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const userData = useSelector((state) => state.auth.userData);
+  const { status, userData } = useSelector((state) => state.auth);
 
   const support = async (data) => {
     setLoading(true);
@@ -38,7 +64,11 @@ function SupportForm() {
     }
   };
 
-  if (!userData) {
+  if (status && !userData) {
+    return <div className="text-center py-10">Loading user information...</div>;
+  }
+
+  if (!status) {
     return (
       <div className="flex items-center justify-center w-full">
         <div className="mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10 text-center">
@@ -70,12 +100,12 @@ function SupportForm() {
           </span>
         </div>
 
-        <h2 className="text-center text-2xl font-bold leading-tight">
-          Contact Support
+        <h2 className="text-center text-2xl font-bold leading-tight p-2">
+          {current.heading || "Contact Us"}
         </h2>
 
         <p className="mt-2 text-center text-base text-black/60">
-          Need help with BlogForge? Submit your query and we'll get back to you.
+          {current.description}
         </p>
 
         {error && <p className="text-red-600 mt-6 text-center">{error}</p>}
@@ -117,7 +147,6 @@ function SupportForm() {
 
             <Input
               label="Subject: "
-              placeholder="Enter subject"
               type="text"
               {...register("subject", {
                 required: "Subject is required",

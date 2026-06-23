@@ -14,7 +14,7 @@ function Footer() {
               </div>
               <div>
                 <p className="text-sm text-gray-600">
-                  &copy; Copyright {new Date().getFullYear()}. All Rights Reserved by DevUI.
+                  &copy; Copyright {new Date().getFullYear()}. All Rights Reserved by BlogForge.
                 </p>
               </div>
             </div>
@@ -30,23 +30,23 @@ function Footer() {
                     className=" text-base font-medium text-gray-900 hover:text-gray-700"
                     to="/"
                   >
-                    Features
+                    Home
                   </Link>
                 </li>
                 <li className="mb-4">
                   <Link
                     className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
+                    to="/all=posts"
                   >
-                    Pricing
+                    All Blogs
                   </Link>
                 </li>
                 <li className="mb-4">
                   <Link
                     className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
+                    to="/categories"
                   >
-                    Affiliate Program
+                    All Categories
                   </Link>
                 </li>
                 <li>
@@ -54,7 +54,7 @@ function Footer() {
                     className=" text-base font-medium text-gray-900 hover:text-gray-700"
                     to="/"
                   >
-                    Press Kit
+                    About Us
                   </Link>
                 </li>
               </ul>
@@ -69,33 +69,25 @@ function Footer() {
                 <li className="mb-4">
                   <Link
                     className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Account
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Help
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/support"
+                    to="/support?type=contact"
                   >
                     Contact Us
                   </Link>
                 </li>
-                <li>
+                <li className="mb-4">
                   <Link
                     className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/support"
+                    to="/support?type=issue"
                   >
-                    Customer Support
+                    Report Issue
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
+                    to="/support?type=feedback"
+                  >
+                    Submit Feedback
                   </Link>
                 </li>
               </ul>

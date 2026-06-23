@@ -70,9 +70,13 @@ const router = createBrowserRouter([
         element: <Post />,
       },
       {
-        path:"/support",
+        path: "/support",
         element: <Support/>
-      }
+      },
+      // {
+      //   path: "/categories",
+      //   element: <Category />
+      // }
     ],
   },
 ]);

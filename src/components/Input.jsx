@@ -13,7 +13,6 @@ const Input = React.forwardRef(function Input(
             {label}
           </label>
         )
-        // if label is passed in argument, then label will shown on page otherwise not.
       }
       <input
         type={type}

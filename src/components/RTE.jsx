@@ -11,6 +11,13 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
       <Controller
         name={name || "content"}
         control={control}
+        rules={{
+          validate: (value) => {
+            const text = value?.replace(/<[^>]*>/g, "")?.trim();
+
+            return text.length > 0 || "*Content is required";
+          },
+        }}
         render={({ field: { onChange } }) => (
           <Editor
             initialValue={defaultValue}
