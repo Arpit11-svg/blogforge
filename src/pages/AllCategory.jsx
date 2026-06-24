@@ -21,7 +21,7 @@ function AllCategory() {
 
   const sortedCategories = [...categories].sort(
     (a, b) => (counts[b.value] || 0) - (counts[a.value] || 0),
-  );
+  ); 
 
   const [search, setSearch] = useState("");
   const filteredCategories = sortedCategories.filter((category) =>

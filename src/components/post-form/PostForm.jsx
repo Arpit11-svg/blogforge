@@ -92,7 +92,7 @@ export default function PostForm({ post }) {
           {post ? "Edit Blog" : "Create New Blog"}
         </h1>
 
-        <p className="text-gray-500 mt-2">
+        <p className="text-gray-200 text-xl mt-2">
           Share your thoughts with the BlogForge community.
         </p>
       </div>
