@@ -14,7 +14,6 @@ import Button from './Button.jsx'
 import Input from './Input.jsx'
 import SupportForm from "./SupportForm.jsx"
 import CategoryCard from "./CategoryCard.jsx"
-// import UserPostCard from "./UserPostCard.jsx"
 
 export {
     Header,
@@ -33,5 +32,4 @@ export {
     AuthLayout,
     SupportForm,
     CategoryCard,
-    // UserPostCard,
 }

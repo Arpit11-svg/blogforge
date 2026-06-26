@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {useState, useEffect} from "react";
 import { CategoryCard, Container, Input } from "../components";
 import { categories } from "../components/constants/allcategories";
-import appwriteService from "../appwrite/config";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAllPosts } from "../store/postsSelectors";
+import { fetchAllPosts } from "../store/postsThunk";
 
 function AllCategory() {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    appwriteService.getPosts([]).then((response) => {
-      if (response) {
-        setPosts(response.rows);
+  const dispatch=useDispatch();
+  const posts = useSelector(selectAllPosts);
+  const isFetched = useSelector((state) => state.posts.isFetched);
+  
+    useEffect(() => {
+      if (!isFetched) {
+        dispatch(fetchAllPosts());
       }
-    });
-  }, []);
+    }, [dispatch, isFetched]);
 
   const counts = {};
   posts.forEach((post) => {
@@ -21,7 +23,7 @@ function AllCategory() {
 
   const sortedCategories = [...categories].sort(
     (a, b) => (counts[b.value] || 0) - (counts[a.value] || 0),
-  ); 
+  );
 
   const [search, setSearch] = useState("");
   const filteredCategories = sortedCategories.filter((category) =>

@@ -4,12 +4,12 @@ import Logo from "../Logo";
 import {
   FaGithub,
   FaLinkedin,
-  FaTwitter,
+  FaXTwitter,
   FaEnvelope,
-  FaMapMarkerAlt,
   FaGlobe,
   FaLaptopCode,
-} from "react-icons/fa";
+} from "react-icons/fa6";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 function Footer() {
   return (
@@ -52,7 +52,7 @@ function Footer() {
                   rel="noopener noreferrer"
                   className="text-gray-800 hover:text-sky-500 text-2xl"
                 >
-                  <FaTwitter />
+                  <FaXTwitter />
                 </a>
               </div>
             </div>

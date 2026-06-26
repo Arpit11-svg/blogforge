@@ -1,25 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Query } from "appwrite";
+import React from "react";
 import { useSelector } from "react-redux";
-import appwriteService from "../appwrite/config";
 import { Container, PostCard } from "../components";
 import { Link } from "react-router-dom";
+import { selectMyPosts } from "../store/postsSelectors";
 
 function UserPosts() {
   const userData = useSelector((state) => state.auth.userData);
-  const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    if (!userData) return;
-    appwriteService
-      .getPosts([Query.equal("userId", userData.$id)])
-      .then((response) => {
-        if (response) {
-          setPosts(response.rows);
-        }
-      });
-  }, [userData]);
-
+  const myPosts = useSelector((state) => userData? selectMyPosts(state, userData.$id) : []);
+  
   return (
     <div className="w-full py-8">
       <div className="flex flex-col justify-center items-center">
@@ -28,12 +17,12 @@ function UserPosts() {
         </h2>
         <div className="mb-8">
           <p className="text-gray-300">
-            {`You have total ${posts.length} post${posts.length !== 1 ? "s" : ""}`}
+            {`You have total ${myPosts.length} post${myPosts.length !== 1 ? "s" : ""}`}
           </p>
         </div>
       </div>
       <Container>
-        {posts.length === 0 ? (
+        {myPosts.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="text-6xl mb-4">📝</div>
 
@@ -53,7 +42,7 @@ function UserPosts() {
           </div>
         ) : (
           <div className="flex flex-wrap">
-            {posts.map((post) => (
+            {myPosts.map((post) => (
               <div
                 key={post.$id}
                 className="p-2 w-full sm:w-1/2 lg:w-1/3 xl:w-1/4"

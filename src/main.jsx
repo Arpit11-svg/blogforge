@@ -17,6 +17,7 @@ import Support from "./pages/Support.jsx";
 import AllCategory from "./pages/AllCategory.jsx";
 import CategoryPost from "./pages/CategoryPost";
 import UserPosts from "./pages/UserPosts.jsx"
+import UserProfile from "./pages/UserProfile.jsx"
 
 const router = createBrowserRouter([
   {
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
         path: "/user-posts",
         element: <UserPosts />,
       },
+      {
+        path: "/profile",
+        element: <UserProfile />
+      }
     ],
   },
 ]);

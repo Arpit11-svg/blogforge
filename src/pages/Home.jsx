@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
-import appwriteService from "../appwrite/config";
 import { Container, PostCard } from "../components";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllPosts } from "../store/postsThunk";
+import { selectAllPosts } from "../store/postsSelectors";
 
 function Home() {
-  const [posts, setPosts] = useState([]);
+  const dispatch = useDispatch();
+  const posts = useSelector(selectAllPosts);
+  
+  const loading = useSelector((state) => state.posts.loading);
+  const isFetched = useSelector((state) => state.posts.isFetched);
 
   useEffect(() => {
-    appwriteService.getPosts().then((posts) => {
-      setPosts(posts?.rows || []);
-    });
-  }, []);
+    if (!isFetched) {
+      dispatch(fetchAllPosts());
+    }
+  }, [dispatch, isFetched]);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   if (posts.length === 0) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center bg-gradient-to-r from-blue-50 to-purple-50 px-4">

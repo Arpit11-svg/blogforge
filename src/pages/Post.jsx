@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect} from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import appwriteService from "../appwrite/config";
 import { Button, Container } from "../components";
+import appwriteService from "../appwrite/config";
 import parse from "html-react-parser";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deletePostThunk } from "../store/postsThunk";
+import { selectPostById } from "../store/postsSelectors";
+import { fetchAllPosts } from "../store/postsThunk";
 
 export default function Post() {
-  const [post, setPost] = useState(null);
-  const { slug } = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { slug } = useParams();
   const userData = useSelector((state) => state.auth.userData);
 
-  const isAuthor = post && userData ? post.userId === userData.$id : false;
+  const isFetched = useSelector((state) => state.posts.isFetched);
 
   useEffect(() => {
-    if (slug) {
-      appwriteService.getPost(slug).then((post) => {
-        if (post) setPost(post);
-        else navigate("/");
-      });
-    } else navigate("/");
-  }, [slug, navigate]);
+    if (!isFetched) {
+      dispatch(fetchAllPosts());
+    }
+  }, [dispatch, isFetched]);
+
+  const post = useSelector((state) => selectPostById(state, slug));
+  const isAuthor = post && userData ? post.userId === userData.$id : false;
 
   const deletePost = () => {
-    appwriteService.deletePost(post.$id).then((status) => {
-      if (status) {
-        appwriteService.deleteFile(post.featuredImage);
-        navigate("/");
-      }
-    });
+    const status = dispatch(deletePostThunk(post));
+    if (status) {
+      navigate("/");
+    }
   };
 
   return post ? (

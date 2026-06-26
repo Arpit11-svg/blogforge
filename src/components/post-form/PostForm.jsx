@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { categories } from "../constants/allcategories";
+import { createPostThunk, updatePostThunk } from "../../store/postsThunk";
 
 export default function PostForm({ post }) {
   const {
@@ -23,43 +24,33 @@ export default function PostForm({ post }) {
       status: post?.status || "active",
     },
   });
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
     if (post) {
-      const file = data.image[0]
-        ? await appwriteService.uploadFile(data.image[0])
-        : null;
-
-      if (file) {
-        appwriteService.deleteFile(post.featuredImage);
-      }
-
-      const dbPost = await appwriteService.updatePost(post.$id, {
-        ...data,
-        featuredImage: file ? file.$id : undefined,
-      });
+      const dbPost = await dispatch(
+        updatePostThunk({
+          post,
+          data,
+        }),
+      );
 
       if (dbPost) {
         navigate(`/post/${dbPost.$id}`);
       }
     } else {
-      const file = await appwriteService.uploadFile(data.image[0]);
-
-      if (file) {
-        const fileId = file.$id;
-        data.featuredImage = fileId;
-        console.log(userData);
-        const dbPost = await appwriteService.createPost({
-          ...data,
+      const dbPost = await dispatch(
+        createPostThunk({
+          data,
           userId: userData.$id,
-        });
+        }),
+      );
 
-        if (dbPost) {
-          navigate(`/post/${dbPost.$id}`);
-        }
+      if (dbPost) {
+        navigate(`/post/${dbPost.$id}`);
       }
     }
   };
@@ -98,28 +89,17 @@ export default function PostForm({ post }) {
       </div>
       <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
         <div className="w-full lg:w-8/12 px-2">
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+          )}
           <Input
             label="Title :"
             placeholder="Title"
             className="mb-4"
-            {...register("title", { required: true })}
-          />
-          <Input
-            label="Slug :"
-            placeholder="Slug"
-            className="mb-4"
-            disabled
-            {...register("slug", { required: true })}
-            onInput={(e) => {
-              setValue("slug", slugTransform(e.currentTarget.value), {
-                shouldValidate: true,
-              });
-            }}
+            {...register("title", { required: "*Title is required" })}
           />
           {errors.content && (
-            <p className="text-red-600 text-xl mt-1">
-              {errors.content.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.content.message}</p>
           )}
           <RTE
             label="Content :"
@@ -129,12 +109,17 @@ export default function PostForm({ post }) {
           />
         </div>
         <div className="w-full lg:w-4/12 px-2 mt-6 lg:mt-0">
+          {errors.image && (
+            <p className="text-red-500 text-sm">{errors.image.message}</p>
+          )}
           <Input
             label="Featured Image :"
             type="file"
             className="mb-4"
             accept="image/png, image/jpg, image/jpeg, image/gif"
-            {...register("image", { required: !post })}
+            {...register("image", {
+              required: post ? false : "Please upload a cover image",
+            })}
           />
           {post && (
             <div className="w-full mb-4">
@@ -162,12 +147,15 @@ export default function PostForm({ post }) {
             <label className="inline-block mb-1 pl-1 font-medium">
               Category
             </label>
+            {errors.category && (
+              <p className="text-red-500 text-sm">{errors.category.message}</p>
+            )}
 
             <select
               className="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white"
               defaultValue={post?.category || ""}
               {...register("category", {
-                required: "Category is required",
+                required: "Please select a category",
               })}
             >
               <option value="">Select Category</option>

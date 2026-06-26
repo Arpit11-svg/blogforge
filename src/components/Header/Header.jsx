@@ -43,7 +43,7 @@ function Header() {
   ];
   const [open, setOpen] = useState(false);
 
-  return (
+  return (  
     <header className="py-3 shadow bg-gray-500">
       <Container>
         <nav className="flex">
@@ -86,13 +86,17 @@ function Header() {
 
                     <hr className="my-3" />
 
-                    <button 
-                    onClick={() => navigate("/user-posts")}
-                    className="block w-full text-left py-2 hover:text-blue-600 cursor-pointer">
+                    <button
+                      onClick={() => navigate("/user-posts")}
+                      className="block w-full text-left py-2 hover:text-blue-600 cursor-pointer"
+                    >
                       My Posts
                     </button>
 
-                    <button className="block w-full text-left py-2 hover:text-blue-600 cursor-pointer">
+                    <button
+                      onClick={() => navigate("/profile")}
+                      className="block w-full text-left py-2 hover:text-blue-600 cursor-pointer"
+                    >
                       Profile
                     </button>
 
