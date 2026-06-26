@@ -43,23 +43,30 @@ function Header() {
   ];
   const [open, setOpen] = useState(false);
 
-  return (  
-    <header className="py-3 shadow bg-gray-500">
+  return (
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-gray-200 shadow-sm">
       <Container>
-        <nav className="flex">
-          <div className="mr-4">
-            <Link to="/">
-              <Logo width="70px" />
-            </Link>
-          </div>
+        <nav className="h-20 flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md">
+              <Logo width="60px" />
+            </div>
 
-          <ul className="flex ml-auto">
+            <div className="hidden md:block">
+              <h1 className="text-xl font-bold text-gray-800">BlogForge</h1>
+              <p className="text-xs text-gray-500">Share • Learn • Inspire</p>
+            </div>
+          </Link>
+
+          {/* Navigation */}
+          <ul className="flex items-center gap-2">
             {navItems.map((item) =>
               item.active ? (
                 <li key={item.name}>
                   <button
                     onClick={() => navigate(item.slug)}
-                    className="inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full"
+                    className="px-5 py-2 rounded-full text-gray-700 font-medium hover:bg-gradient-to-r hover:from-blue-600 hover:to-indigo-600 hover:text-white transition-all duration-300"
                   >
                     {item.name}
                   </button>
@@ -67,45 +74,63 @@ function Header() {
               ) : null,
             )}
 
+            {/* Profile */}
             {authStatus && userData && (
-              <div
-                className="relative group"
+              <li
+                className="relative ml-3"
                 onMouseEnter={() => setOpen(true)}
                 onMouseLeave={() => setOpen(false)}
               >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white flex items-center justify-center cursor-pointer">
+                {/* Avatar */}
+                <div className="w-11 h-11 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg cursor-pointer shadow-lg hover:scale-105 transition duration-300">
                   {userData?.name?.charAt(0)?.toUpperCase()}
                 </div>
 
-                {open && (
-                  <div className="absolute right-0 w-64 bg-white shadow-lg rounded-lg p-4 hidden group-hover:block z-50">
-                    <h3 className="font-semibold">{userData.name}</h3>
-                    <p className="text-sm text-gray-500 break-all">
+                {/* Dropdown */}
+                <div
+                  className={`absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden transition-all duration-300 ${
+                    open
+                      ? "opacity-100 visible translate-y-0"
+                      : "opacity-0 invisible -translate-y-3"
+                  }`}
+                >
+                  {/* Header */}
+                  <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-5">
+                    <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-2xl font-bold mb-3">
+                      {userData?.name?.charAt(0)?.toUpperCase()}
+                    </div>
+
+                    <h3 className="font-semibold text-lg">{userData.name}</h3>
+
+                    <p className="text-sm text-blue-100 break-all">
                       {userData.email}
                     </p>
+                  </div>
 
-                    <hr className="my-3" />
-
+                  {/* Menu */}
+                  <div className="p-3">
                     <button
                       onClick={() => navigate("/user-posts")}
-                      className="block w-full text-left py-2 hover:text-blue-600 cursor-pointer"
+                      className="w-full text-left px-4 py-3 rounded-xl hover:bg-gray-100 transition"
                     >
-                      My Posts
+                      📝 My Posts
                     </button>
 
                     <button
                       onClick={() => navigate("/profile")}
-                      className="block w-full text-left py-2 hover:text-blue-600 cursor-pointer"
+                      className="w-full text-left px-4 py-3 rounded-xl hover:bg-gray-100 transition"
                     >
-                      Profile
+                      👤 Profile
                     </button>
 
-                    <div className="mt-2 border-t pt-2">
+                    <div className="my-3 border-t"></div>
+
+                    <div className="px-2">
                       <LogoutBtn />
                     </div>
                   </div>
-                )}
-              </div>
+                </div>
+              </li>
             )}
           </ul>
         </nav>

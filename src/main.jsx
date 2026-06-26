@@ -16,8 +16,8 @@ import Home from "./pages/Home.jsx";
 import Support from "./pages/Support.jsx";
 import AllCategory from "./pages/AllCategory.jsx";
 import CategoryPost from "./pages/CategoryPost";
-import UserPosts from "./pages/UserPosts.jsx"
-import UserProfile from "./pages/UserProfile.jsx"
+import UserPosts from "./pages/UserPosts.jsx";
+import UserProfile from "./pages/UserProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,9 +47,7 @@ const router = createBrowserRouter([
       {
         path: "/all-posts",
         element: (
-          <AuthLayout authentication={true}>
             <AllPosts />
-          </AuthLayout>
         ),
       },
       {
@@ -79,11 +77,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/category",
-        element: (
-          <AuthLayout authentication={true}>
-            <AllCategory />
-          </AuthLayout>
-        ),
+        element: <AllCategory />,
       },
       {
         path: "/category/:category",
@@ -99,8 +93,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <UserProfile />
-      }
+        element: <UserProfile />,
+      },
     ],
   },
 ]);

@@ -7,6 +7,7 @@ import { selectAllPosts } from "../store/postsSelectors";
 
 function Home() {
   const dispatch = useDispatch();
+  const { status } = useSelector((state) => state.auth);
   const posts = useSelector(selectAllPosts);
 
   const loading = useSelector((state) => state.posts.loading);
@@ -29,7 +30,7 @@ function Home() {
   if (loading) {
     return <div>Loading...</div>;
   }
-  if (posts.length === 0) {
+  if (!status || posts.length === 0) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center bg-gradient-to-r from-blue-50 to-purple-50 px-4">
         <Link to="/login">

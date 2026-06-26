@@ -13,129 +13,131 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 
 function Footer() {
   return (
-    <section className="relative overflow-hidden py-10 bg-gray-400 border border-t-2 border-t-black">
-      <div className="relative z-10 mx-auto max-w-7xl px-4">
-        <div className="-m-6 flex flex-wrap">
-          <div className="w-full p-6 md:w-1/2 lg:w-5/12">
-            <div className="flex h-full flex-col justify-between">
-              <div className="mb-4 inline-flex items-center">
-                <Logo width="100px" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">
-                  &copy; Copyright {new Date().getFullYear()}. All Rights
-                  Reserved by BlogForge.
-                </p>
-              </div>
-              <div className="mt-4 flex gap-4">
-                <a
-                  href="https://github.com/Arpit11-svg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-800 hover:text-black text-2xl"
-                >
-                  <FaGithub />
-                </a>
+    <footer className="relative overflow-hidden bg-slate-950 text-gray-300">
+      {/* Top Gradient Line */}
+      <div className="h-1 bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500"></div>
 
-                <a
-                  href="https://www.linkedin.com/in/arpit-choudhary-092706328/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-800 hover:text-blue-700 text-2xl"
-                >
-                  <FaLinkedin />
-                </a>
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid gap-12 lg:grid-cols-4 md:grid-cols-2">
+          {/* Logo */}
+          <div>
+            <div className="mb-6">
+              <Logo width="120px" />
+            </div>
 
-                <a
-                  href="https://x.com/ChoudharyArpit_"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-800 hover:text-sky-500 text-2xl"
-                >
-                  <FaXTwitter />
-                </a>
-              </div>
+            <p className="text-gray-400 leading-7 mb-6">
+              BlogForge is a modern blogging platform where ideas meet
+              creativity. Discover articles, share knowledge and connect with
+              amazing writers.
+            </p>
+
+            <div className="flex gap-4">
+              <a
+                href="https://github.com/Arpit11-svg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-11 h-11 rounded-xl bg-slate-900 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center shadow-lg"
+              >
+                <FaGithub size={20} />
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/arpit-choudhary-092706328/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-11 h-11 rounded-xl bg-slate-900 hover:bg-blue-600 hover:text-white transition-all duration-300 flex items-center justify-center shadow-lg"
+              >
+                <FaLinkedin size={20} />
+              </a>
+
+              <a
+                href="https://x.com/ChoudharyArpit_"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-11 h-11 rounded-xl bg-slate-900 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center shadow-lg"
+              >
+                <FaXTwitter size={18} />
+              </a>
             </div>
           </div>
-          <div className="w-full p-6 md:w-1/2 lg:w-2/12">
-            <div className="h-full">
-              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-500">
-                Company
-              </h3>
-              <ul>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/all-posts"
-                  >
-                    All Blogs
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/category"
-                  >
-                    All Categories
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="w-full p-6 md:w-1/2 lg:w-2/12">
-            <div className="h-full">
-              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-500">
-                Support
-              </h3>
-              <ul>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/support?type=contact"
-                  >
-                    Contact Us
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/support?type=issue"
-                  >
-                    Report Issue
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/support?type=feedback"
-                  >
-                    Submit Feedback
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="w-full p-6 md:w-1/2 lg:w-3/12">
-            <h3 className="tracking-px mb-9 text-xs font-semibold uppercase text-gray-500">
-              Contact
-            </h3>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 text-gray-900">
-                <FaEnvelope />
+          {/* Company */}
+
+          <div>
+            <h3 className="text-white text-lg font-semibold mb-6">Company</h3>
+
+            <ul className="space-y-4">
+              <li>
+                <Link to="/" className="hover:text-blue-400 transition">
+                  Home
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/all-posts"
+                  className="hover:text-blue-400 transition"
+                >
+                  All Blogs
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/category" className="hover:text-blue-400 transition">
+                  Categories
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Support */}
+
+          <div>
+            <h3 className="text-white text-lg font-semibold mb-6">Support</h3>
+
+            <ul className="space-y-4">
+              <li>
+                <Link
+                  to="/support?type=contact"
+                  className="hover:text-blue-400 transition"
+                >
+                  Contact Us
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/support?type=issue"
+                  className="hover:text-blue-400 transition"
+                >
+                  Report Issue
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/support?type=feedback"
+                  className="hover:text-blue-400 transition"
+                >
+                  Submit Feedback
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+
+          <div>
+            <h3 className="text-white text-lg font-semibold mb-6">Contact</h3>
+
+            <div className="space-y-5">
+              <div className="flex gap-3 items-center">
+                <FaEnvelope className="text-blue-400" />
                 <span>support@blogforge.com</span>
               </div>
 
-              <div className="flex items-center gap-3 text-gray-900">
-                <FaMapMarkerAlt />
+              <div className="flex gap-3 items-center">
+                <FaMapMarkerAlt className="text-blue-400" />
                 <span>Ghaziabad, Uttar Pradesh</span>
               </div>
 
@@ -143,18 +145,41 @@ function Footer() {
                 href="https://www.linkedin.com/in/arpit-choudhary-092706328/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-800 hover:text-blue-700 underline"
+                className="group flex gap-3 items-center hover:text-blue-400 transition"
               >
-                <div className="flex items-center gap-3 text-gray-900">
-                  <FaLaptopCode className="text-lg" />
-                  <span>Developed by Arpit Choudhary</span>
-                </div>
+                <FaLaptopCode className="text-blue-400" />
+
+                <span className="group-hover:translate-x-1 transition">
+                  Developed by Arpit Choudhary
+                </span>
               </a>
             </div>
           </div>
         </div>
+
+        {/* Bottom */}
+
+        <div className="border-t border-slate-800 mt-14 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-gray-500">
+            © {new Date().getFullYear()} BlogForge. All rights reserved.
+          </p>
+
+          <div className="flex gap-6 text-sm text-gray-500">
+            <span className="hover:text-white cursor-pointer transition">
+              Built with React
+            </span>
+
+            <span className="hover:text-white cursor-pointer transition">
+              Appwrite
+            </span>
+
+            <span className="hover:text-white cursor-pointer transition">
+              Tailwind
+            </span>
+          </div>
+        </div>
       </div>
-    </section>
+    </footer>
   );
 }
 
