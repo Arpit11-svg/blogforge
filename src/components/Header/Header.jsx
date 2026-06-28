@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Menu, X, User } from "lucide-react";
 import { Container, Logo, LogoutBtn } from "../index";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -41,16 +42,17 @@ function Header() {
       active: authStatus,
     },
   ];
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-gray-200 shadow-sm">
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/90 border-b border-gray-200 shadow-md">
       <Container>
-        <nav className="h-20 flex items-center justify-between">
+        <nav className="h-16 md:h-20 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md">
-              <Logo width="60px" />
+              <Logo width="80px" />
             </div>
 
             <div className="hidden md:block">
@@ -59,8 +61,8 @@ function Header() {
             </div>
           </Link>
 
-          {/* Navigation */}
-          <ul className="flex items-center gap-2">
+          {/* Desktop */}
+          <ul className="hidden lg:flex items-center gap-2">
             {navItems.map((item) =>
               item.active ? (
                 <li key={item.name}>
@@ -133,7 +135,65 @@ function Header() {
               </li>
             )}
           </ul>
+          <button
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </nav>
+        {mobileOpen && (
+          <div className="lg:hidden bg-white rounded-b-2xl shadow-xl border-t">
+            <ul className="flex flex-col gap-2">
+              {navItems.map(
+                (item) =>
+                  item.active && (
+                    <li key={item.name}>
+                      <button
+                        onClick={() => {
+                          navigate(item.slug);
+                          setMobileOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-3 rounded-xl hover:bg-blue-50"
+                      >
+                        {item.name}
+                      </button>
+                    </li>
+                  ),
+              )}
+
+              {authStatus && (
+                <>
+                  <hr />
+
+                  <button
+                    onClick={() => {
+                      navigate("/profile");
+                      setMobileOpen(false);
+                    }}
+                    className="text-left px-4 py-3 rounded-xl hover:bg-blue-50"
+                  >
+                    👤 Profile
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      navigate("/user-posts");
+                      setMobileOpen(false);
+                    }}
+                    className="text-left px-4 py-3 rounded-xl hover:bg-blue-50"
+                  >
+                    📝 My Posts
+                  </button>
+
+                  <div className="px-2 mt-2">
+                    <LogoutBtn />
+                  </div>
+                </>
+              )}
+            </ul>
+          </div>
+        )}
       </Container>
     </header>
   );
