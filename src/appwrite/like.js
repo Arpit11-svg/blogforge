@@ -1,17 +1,15 @@
 import conf from '../conf/conf.js';
-import { ID, Query, Permission, Role } from "appwrite";
+import { Client, TablesDB, ID, Query } from "appwrite";
 
 export class Service {
     client = new Client();
     tableDB;
-    bucket;
 
     constructor() {
         this.client
             .setEndpoint(conf.appwriteUrl)
             .setProject(conf.appwriteProjectId);
         this.tableDB = new TablesDB(this.client);
-        this.bucket = new Storage(this.client);
     }
 
     async likePost(postId, userId) {
@@ -25,11 +23,9 @@ export class Service {
                     userId
                 }
             })
-
         } catch (error) {
             console.log("likePost error: ", error);
             throw error;
-
         }
     }
     async unlikePost(likeId) {
@@ -43,7 +39,7 @@ export class Service {
             return true;
         } catch (error) {
             console.error("unlikePost error:", error);
-            return false;
+            throw error;
         }
     }
     async getUserLike(postId, userId) {
@@ -69,11 +65,15 @@ export class Service {
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteLikesTableId,
                 queries: [
-                    Query.equal("postId", [postId])
+                    Query.equal("postId", [postId]),
+                    Query.limit(1) 
                 ]
             });
 
-            return response.total;
+            const val = response.total;
+            console.log("like count from like.js", val, " post ID is: ", postId );
+            return val;
+
         } catch (error) {
             console.error("getLikeCount error:", error);
             return 0;
@@ -102,5 +102,5 @@ export class Service {
         }
     }
 }
-const likeService = Service();
-export default likeService;
+const appwriteLikeService = new Service();
+export default appwriteLikeService;
