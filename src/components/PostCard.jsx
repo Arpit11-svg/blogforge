@@ -6,20 +6,29 @@ import { categoryMap } from "./constants/allcategories";
 import { useSelector } from "react-redux";
 
 function PostCard({ $id, title, featuredImage, category }) {
-
   const [liked, setLiked] = useState(false);
+  const [loadingLike, setLoadingLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const userData = useSelector((state) => state.auth.userData);
   // console.log(userData);
-  
 
   const handleLike = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (loadingLike) return;
+    setLoadingLike(true);
 
-    const response = await appwriteLikeService.toggleLike($id, userData.$id);
-    setLiked(response.liked);
-    setLikeCount(prev => response.liked ? prev+1 : prev-1);
+    try {
+      const response = await appwriteLikeService.toggleLike($id, userData.$id);
+
+      setLiked(response.liked);
+
+      // Fetch the actual count from the database
+      const count = await appwriteLikeService.getLikeCount($id);
+      setLikeCount(count);
+    } finally {
+      setLoadingLike(false);
+    }
   };
 
   const loadLikes = async () => {
@@ -57,7 +66,11 @@ function PostCard({ $id, title, featuredImage, category }) {
           {title}
         </h2>
         <hr />
-        <button onClick={handleLike} className="cursor-pointer">
+        <button
+          onClick={handleLike}
+          disabled={loadingLike}
+          className="cursor-pointer"
+        >
           {liked ? "❤️" : "🤍"} {likeCount}
         </button>
       </div>

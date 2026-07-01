@@ -24,7 +24,11 @@ function App() {
   }, [dispatch]);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-2xl font-semibold">Loading...</h1>
+      </div>
+    );
   }
 
   return !loading ? (

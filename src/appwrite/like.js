@@ -66,12 +66,11 @@ export class Service {
                 tableId: conf.appwriteLikesTableId,
                 queries: [
                     Query.equal("postId", [postId]),
-                    Query.limit(1) 
+                    Query.limit(1)
                 ]
             });
 
             const val = response.total;
-            console.log("like count from like.js", val, " post ID is: ", postId );
             return val;
 
         } catch (error) {
@@ -85,16 +84,14 @@ export class Service {
 
             if (existingLike) {
                 await this.unlikePost(existingLike.$id);
-                return {
-                    liked: false
-                };
+
+                return { liked: false };
             }
+
 
             await this.likePost(postId, userId);
 
-            return {
-                liked: true
-            };
+            return { liked: true };
 
         } catch (error) {
             console.error("toggleLike error:", error);
