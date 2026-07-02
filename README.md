@@ -27,16 +27,17 @@ Designed with a clean UI, secure authentication, rich text editing, image upload
 
 # ✨ Features
 
-- 🔐 Secure Authentication
-- ✍️ Rich Text Blog Editor (TinyMCE)
-- 📝 Create Blogs
-- 🛠 Edit Blogs
-- 🗑 Delete Blogs
-- ❤️ Like System
-- 🖼 Image Upload Support
-- 📱 Fully Responsive Design
-- ⚡ Fast Vite Build
-- 🔄 Global State Management using Redux Toolkit
+- 🔐 **Secure Authentication** — Sign up, log in, logout, and protected user sessions.
+- ✍️ **Rich Text Editor** — Create beautifully formatted blogs using TinyMCE.
+- 📝 **Complete Blog Management** — Create, edit, update, and delete blog posts effortlessly.
+- 🖼️ **Image Uploads** — Upload and display featured images with every blog.
+- ❤️ **Like System** — Like and unlike blogs with real-time like count updates.
+- 🔍 **Category-wise Filtering** — Explore blogs by categories for a better reading experience.
+- 📬 **Feedback & Contact Support** — Built-in contact form for user feedback and support requests.
+- 📱 **Responsive Design** — Optimized for desktop, tablet, and mobile devices.
+- ⚡ **High Performance** — Built with Vite for lightning-fast development and production builds.
+- 🔄 **State Management** — Efficient global state management using Redux Toolkit.
+- ☁️ **Appwrite Backend** — Authentication, Database, and Storage powered by Appwrite.
 
 ---
 
