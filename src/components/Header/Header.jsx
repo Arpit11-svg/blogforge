@@ -17,6 +17,11 @@ function Header() {
       active: true,
     },
     {
+      name: "Search",
+      slug: "/search",
+      active: authStatus,
+    },
+    {
       name: "Categories",
       slug: "/category",
       active: authStatus,
@@ -51,7 +56,7 @@ function Header() {
         <nav className="h-16 md:h-20 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md">
+            <div className="p-1.25 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md">
               <Logo width="80px" />
             </div>
 

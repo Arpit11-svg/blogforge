@@ -1,4 +1,5 @@
 import conf from '../conf/conf.js';
+import aiService from "../services/ai.js";
 import { Client, ID, TablesDB, Storage, Query } from "appwrite";
 
 export class Service {
@@ -16,6 +17,9 @@ export class Service {
 
     async createPost({ title, slug, content, category, featuredImage, status, userId }) {
         try {
+
+            const embeddingVector = await aiService.generateEmbedding(`${title} ${content}`);
+            const embedding = embeddingVector ? JSON.stringify(embeddingVector) : null;
             return await this.tableDB.createRow({
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteArticlesTableId,
@@ -27,7 +31,8 @@ export class Service {
                     category,
                     featuredImage,
                     status,
-                    userId
+                    userId,
+                    embedding,
                 }
 
             });
@@ -40,6 +45,8 @@ export class Service {
 
     async updatePost(slug, { title, content, featuredImage, status }) {
         try {
+            const embeddingVector = await aiService.generateEmbedding(`${title} ${content}`);
+            const embedding = embeddingVector ? JSON.stringify(embeddingVector) : null;
             return await this.tableDB.updateRow({
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteArticlesTableId,
@@ -48,7 +55,8 @@ export class Service {
                     title,
                     content,
                     featuredImage,
-                    status
+                    status,
+                    embedding
                 }
             });
         } catch (error) {

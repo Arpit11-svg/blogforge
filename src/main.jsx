@@ -18,6 +18,7 @@ import AllCategory from "./pages/AllCategory.jsx";
 import CategoryPost from "./pages/CategoryPost";
 import UserPosts from "./pages/UserPosts.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
+import Search from "./pages/Search";
 
 const router = createBrowserRouter([
   {
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <UserProfile />,
       },
+      {
+        path: "/search",
+        element: <Search/>
+      }
     ],
   },
 ]);
