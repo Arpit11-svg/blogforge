@@ -38,19 +38,19 @@ export default async function handler(req, res) {
         if (!geminiRes.ok) {
             const errText = await geminiRes.text();
             console.error("Gemini API error:", errText);
-            return res.status(502).json({ error: "Failed to generate summary" });
+            return res.status(502).json({  success: false, error: "Failed to generate summary" });
         }
 
         const data = await geminiRes.json();
         const summary = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
 
         if (!summary) {
-            return res.status(502).json({ error: "Empty response from Gemini" });
+            return res.status(502).json({  success: false, error: "Empty response from Gemini" });
         }
 
-        return res.status(200).json({ summary });
+        return res.status(200).json({  success: true, summary });
     } catch (err) {
         console.error("generate-summary error:", err);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({  success: false, error: "Internal server error" });
     }
 }

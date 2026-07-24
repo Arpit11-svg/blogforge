@@ -25,7 +25,6 @@ class AIService {
             });
 
             const result = await response.json();
-
             if (result.success) {
                 return { success: true, summary: result.summary };
             }

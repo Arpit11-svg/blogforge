@@ -1,6 +1,6 @@
 import conf from '../conf/conf.js';
 import aiService from "../services/ai.js";
-import { Client, ID, TablesDB, Storage, Query } from "appwrite";
+import { Client, ID, TablesDB, Storage, Query, Permission, Role } from "appwrite";
 
 export class Service {
     client = new Client();
@@ -47,18 +47,17 @@ export class Service {
         try {
             const embeddingVector = await aiService.generateEmbedding(`${title} ${content}`);
             const embedding = embeddingVector ? JSON.stringify(embeddingVector) : null;
-            return await this.tableDB.updateRow({
+
+            const updatedRow = await this.tableDB.updateRow({
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteArticlesTableId,
                 rowId: slug,
-                data: {
-                    title,
-                    content,
-                    featuredImage,
-                    status,
-                    embedding
-                }
+                data: { title, content, featuredImage, status, embedding }
             });
+
+            await this.deleteSummariesForPost(slug); 
+
+            return updatedRow;
         } catch (error) {
             console.error("updatePost error:", error);
             throw error;
@@ -72,6 +71,8 @@ export class Service {
                 tableId: conf.appwriteArticlesTableId,
                 rowId: slug,
             });
+
+            await this.deleteSummariesForPost(slug);
 
             return true;
         } catch (error) {
@@ -169,6 +170,86 @@ export class Service {
         } catch (error) {
             console.log("Appwrite Support Error", error);
             throw error;
+        }
+    }
+
+    // AI summary
+    async getPostSummary(postId, userId) {
+        try {
+            const response = await this.tableDB.listRows({
+                databaseId: conf.appwriteDatabaseId,
+                tableId: conf.appwritePostSummariesTableId,
+                queries: [
+                    Query.equal("postId", postId),
+                    Query.equal("userId", userId),
+                ],
+            });
+
+            return response.rows.length > 0 ? response.rows[0] : null;
+
+        } catch (error) {
+            console.error("getPostSummary error:", error);
+            return null;
+        }
+    }
+
+    async createPostSummary(postId, userId, summary) {
+        try {
+            return await this.tableDB.createRow({
+                databaseId: conf.appwriteDatabaseId,
+                tableId: conf.appwritePostSummariesTableId,
+                rowId: ID.unique(),
+                data: {
+                    postId,
+                    userId,
+                    summary,
+                },
+                permissions: [
+                    Permission.read(Role.user(userId)),
+                    Permission.update(Role.user(userId)),
+                    Permission.delete(Role.user(userId)),
+                ],
+            });
+
+        } catch (error) {
+            console.error("createPostSummary error:", error);
+            throw error;
+        }
+    }
+
+    async updatePostSummaryRow(rowId, summary) {
+        try {
+            return await this.tableDB.updateRow({
+                databaseId: conf.appwriteDatabaseId,
+                tableId: conf.appwritePostSummariesTableId,
+                rowId: rowId,
+                data: { summary },
+            });
+        } catch (error) {
+            console.error("updatePostSummaryRow error:", error);
+            throw error;
+        }
+    }
+
+    async deleteSummariesForPost(postId) {
+        try {
+            const response = await this.tableDB.listRows({
+                databaseId: conf.appwriteDatabaseId,
+                tableId: conf.appwritePostSummariesTableId,
+                queries: [Query.equal("postId", postId)],
+            });
+
+            await Promise.all(
+                response.rows.map((row) =>
+                    this.tableDB.deleteRow({
+                        databaseId: conf.appwriteDatabaseId,
+                        tableId: conf.appwritePostSummariesTableId,
+                        rowId: row.$id,
+                    })
+                )
+            );
+        } catch (error) {
+            console.error("deleteSummariesForPost error:", error);
         }
     }
 }

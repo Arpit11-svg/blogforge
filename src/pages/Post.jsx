@@ -1,12 +1,14 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Container } from "../components";
+import AISummary from "../components/AISummary";
 import appwriteService from "../appwrite/config";
 import parse from "html-react-parser";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePostThunk } from "../store/postsThunk";
 import { selectPostById } from "../store/postsSelectors";
 import { fetchAllPosts } from "../store/postsThunk";
+import { Pencil, Trash2 } from "lucide-react";
 
 export default function Post() {
   const dispatch = useDispatch();
@@ -33,32 +35,55 @@ export default function Post() {
   };
 
   return post ? (
-    <div className="py-8">
+    <div className="py-10 bg-gray-50 min-h-screen">
       <Container>
-        <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
-          <img
-            src={appwriteService.getFileView(post.featuredImage)}
-            alt={post.title}
-            className="rounded-xl"
-          />
+        <div className="max-w-3xl mx-auto">
+          {/* Featured image */}
+          <div className="w-full relative rounded-2xl overflow-hidden shadow-md mb-6">
+            <img
+              src={appwriteService.getFileView(post.featuredImage)}
+              alt={post.title}
+              className="w-full max-h-[420px] object-cover"
+            />
 
-          {isAuthor && (
-            <div className="absolute right-6 top-6">
-              <Link to={`/edit-post/${post.$id}`}>
-                <Button bgColor="bg-green-500" className="mr-3">
-                  Edit
+            {isAuthor && (
+              <div className="absolute right-4 top-4 flex gap-2">
+                <Link to={`/edit-post/${post.$id}`}>
+                  <Button
+                    bgColor="bg-white/90"
+                    className="!text-gray-800 hover:!bg-white flex items-center gap-1.5 backdrop-blur-sm shadow-sm"
+                  >
+                    <Pencil size={14} />
+                    Edit
+                  </Button>
+                </Link>
+                <Button
+                  bgColor="bg-red-500/90"
+                  onClick={deletePost}
+                  className="flex items-center gap-1.5 backdrop-blur-sm shadow-sm hover:!bg-red-500"
+                >
+                  <Trash2 size={14} />
+                  Delete
                 </Button>
-              </Link>
-              <Button bgColor="bg-red-500" onClick={deletePost}>
-                Delete
-              </Button>
-            </div>
-          )}
+              </div>
+            )}
+          </div>
+
+          {/* Title */}
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+            {post.title}
+          </h1>
+
+          {/* AI Summary */}
+          <div className="mb-8">
+            <AISummary post={post} />
+          </div>
+
+          {/* Full content */}
+          <div className="browser-css bg-white rounded-2xl shadow-sm p-6 md:p-8">
+            {parse(post.content)}
+          </div>
         </div>
-        <div className="w-full mb-6">
-          <h1 className="text-2xl font-bold">{post.title}</h1>
-        </div>
-        <div className="browser-css">{parse(post.content)}</div>
       </Container>
     </div>
   ) : null;

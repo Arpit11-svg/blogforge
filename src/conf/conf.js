@@ -7,6 +7,7 @@ const conf = {
     tinyMCE_API_KEY: String(import.meta.env.VITE_TINYMCE_API_KEY),
     appwriteSupportTableId: String(import.meta.env.VITE_APPWRITE_SUPPORT_TABLE_ID),
     appwriteLikesTableId: String(import.meta.env.VITE_APPWRITE_LIKES_TABLE_ID),
+    appwritePostSummariesTableId: String(import.meta.env.VITE_APPWRITE_POST_SUMMARIES_TABLE_ID),
 }
 
 export default conf;
